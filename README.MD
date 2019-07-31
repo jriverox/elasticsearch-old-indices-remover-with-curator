@@ -8,5 +8,5 @@
 
 To test all script, run in following order:
 1. python createTestIndices.py
-2. python -c "from indexRemover import *; lambda_handler()"
+2. python -c "from indexRemover import *; lambda_handler(None, None)"
 3. python removeTestIndices.py

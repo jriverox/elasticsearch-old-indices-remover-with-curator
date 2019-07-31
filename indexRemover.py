@@ -2,9 +2,13 @@
 #from requests_aws4auth import AWS4Auth
 from elasticsearch import Elasticsearch, RequestsHttpConnection
 import curator
+import os
+import sys
+import settings
 
-host = 'vpc-es-sbsearch-qa-6lqloaf2kfljixcaekbyqxu2aa.us-east-1.es.amazonaws.com' # For example, search-my-domain.region.es.amazonaws.com
-region = 'us-east-1' # For example, us-west-1
+host = settings.elasticsearch_host
+#region = os.environ['region_es'] # For example, us-west-1
+
 #service = 'es'
 #credentials = boto3.Session().get_credentials()
 #awsauth = AWS4Auth(credentials.access_key, credentials.secret_key, region, service, session_token=credentials.token)
