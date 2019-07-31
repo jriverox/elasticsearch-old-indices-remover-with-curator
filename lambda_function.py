@@ -3,10 +3,8 @@
 from elasticsearch import Elasticsearch, RequestsHttpConnection
 import curator
 import os
-import sys
-import settings
 
-host = settings.elasticsearch_host
+host = os.environ['ELASTIC_URL']
 #region = os.environ['region_es'] # For example, us-west-1
 
 #service = 'es'
