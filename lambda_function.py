@@ -4,7 +4,8 @@ from elasticsearch import Elasticsearch, RequestsHttpConnection
 import curator
 import os
 
-host = os.environ['ELASTIC_URL']
+#host = os.environ['ELASTIC_URL']
+host = 'search-prd-atd-xr4dcmhl3pihxy4mjz4bmg3exi.us-west-2.es.amazonaws.com'
 #region = os.environ['region_es'] # For example, us-west-1
 
 #service = 'es'
@@ -18,16 +19,18 @@ def lambda_handler(event, context):
         hosts = [{'host': host, 'port': 443}],
         use_ssl = True,
         verify_certs = True,
-        connection_class = RequestsHttpConnection
+        connection_class = RequestsHttpConnection,
+        timeout=60
     )
 
     index_list = curator.IndexList(es)
 
     # Filters by age, anything with a time stamp older than 30 days in the index name.
     index_list.filter_by_age(source='name', direction='older', timestring='%Y.%m.%d', unit='days', unit_count=30)
+    
     # If our filtered list contains any indices, delete them.
     if index_list.indices:
-        print(f'Indices que finalmente se eliminaran: {index_list.indices}')
-        curator.DeleteIndices(index_list).do_action()
+         print(f'Indices que finalmente se eliminaran: {index_list.indices}')
+         curator.DeleteIndices(index_list, master_timeout=120).do_action()
     else:
-        print("Ningun indice para eliminar")
+         print("Ningun indice para eliminar")
