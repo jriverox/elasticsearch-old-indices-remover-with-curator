@@ -4,10 +4,9 @@ from elasticsearch import Elasticsearch, RequestsHttpConnection
 import curator
 import os
 
-#host = os.environ['ELASTIC_URL']
-host = 'search-prd-atd-xr4dcmhl3pihxy4mjz4bmg3exi.us-west-2.es.amazonaws.com'
-#region = os.environ['region_es'] # For example, us-west-1
+host = os.environ['ELASTIC_URL']
 
+#region = os.environ['region_es'] # For example, us-west-1
 #service = 'es'
 #credentials = boto3.Session().get_credentials()
 #awsauth = AWS4Auth(credentials.access_key, credentials.secret_key, region, service, session_token=credentials.token)
@@ -30,7 +29,7 @@ def lambda_handler(event, context):
     
     # If our filtered list contains any indices, delete them.
     if index_list.indices:
-         print(f'Indices que finalmente se eliminaran: {index_list.indices}')
+         print(f'Indices eliminados: {len(index_list.indices)}')
          curator.DeleteIndices(index_list, master_timeout=120).do_action()
     else:
          print("Ningun indice para eliminar")
